@@ -9,7 +9,6 @@ import java.security.Principal;
 
 @Log
 @RestController
-@CrossOrigin()
 public class HelloWorldController {
 
     @RequestMapping({"/hello"})
