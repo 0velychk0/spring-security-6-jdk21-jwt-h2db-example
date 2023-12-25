@@ -15,7 +15,7 @@ dependencies {
     implementation 'io.jsonwebtoken:jjwt:0.9.1'
     implementation 'javax.xml.bind:jaxb-api:2.3.1' // needed for java-11 and upper !!
     implementation 'org.projectlombok:lombok:1.18.24'
-    implementation 'com.h2database:h2:2.1.212'
+    implementation 'com.h2database:h2:2.2.224'
 
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa:2.6.7'
     annotationProcessor 'org.projectlombok:lombok:1.18.24'

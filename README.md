@@ -3,10 +3,10 @@
 Link to main example with explanation:
 - https://www.javainuse.com/spring/boot-jwt
 
-1) Send request to localhost:8080/test to check that endpoint is not available without authorization
+1) Send request to localhost:9900/hello to check that endpoint is not available without authorization
 
 
-2) To Generate a JSON Web Token - Create a POST request with url localhost:8080/authenticate with body
+2) To Generate a JSON Web Token - Create a POST request with url localhost:9900/authenticate with body
 {
     "username":"admin",
     "password":"test"
@@ -19,7 +19,7 @@ Response JWT token :
 }
 
 
-3) Use this Bearer token to check localhost:8080/test one more time.
+3) Use this Bearer token to check localhost:9900/hello one more time.
 
 Response : "Hello World"
 
