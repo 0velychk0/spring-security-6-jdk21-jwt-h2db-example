@@ -1,25 +1,16 @@
-# spring-boot-jwt-h2db-minimal-example
 
-Link to main example with explanation:
-- https://www.javainuse.com/spring/boot-jwt
+Test small implementation of an JWT token signin in Spring-Boot-3.2.1 and spring-Security-6
 
-1) Send request to localhost:9900/hello to check that endpoint is not available without authorization
+There is no UI here
 
-
-2) To Generate a JSON Web Token - Create a POST request with url localhost:9900/authenticate with body
+To Generate a JSON Web Token - Create a POST request with url localhost:8080/authenticate with body
 {
-    "username":"admin",
-    "password":"test"
+   "username":"admin",
+   "password":"test"
 }
 
-Response JWT token :
+Example Links:
 
-{
-    "token": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJqYXZhaW51c2UiLCJleHAiOjE2NTI0NjAyOTgsImlhdCI6MTY1MjQ0MjI5OH0.7K7FP2SNYthRmu_NNqAMdILcryrw510n7Eh4bpNvHzMYjPiNPqxkVrrfoWEhIzbQ9ITQWwR1Wy7HzRCgYmpsKw"
-}
+- https://medium.com/spring-boot/spring-boot-3-spring-security-6-jwt-authentication-authorization-98702d6313a5
 
-
-3) Use this Bearer token to check localhost:9900/hello one more time.
-
-Response : "Hello World"
-
+- https://medium.com/@truongbui95/jwt-authentication-and-authorization-with-spring-boot-3-and-spring-security-6-2f90f9337421

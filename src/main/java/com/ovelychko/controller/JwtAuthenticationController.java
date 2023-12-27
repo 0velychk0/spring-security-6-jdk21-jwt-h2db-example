@@ -2,22 +2,21 @@ package com.ovelychko.controller;
 
 import com.ovelychko.config.JwtTokenUtil;
 import com.ovelychko.model.JwtRequest;
-import com.ovelychko.model.JwtResponse;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Objects;
 
+@Slf4j
 @RestController
 public class JwtAuthenticationController {
 
@@ -30,18 +29,16 @@ public class JwtAuthenticationController {
     @Autowired
     private UserDetailsService userDetailsService;
 
-    @RequestMapping(value = "/authenticate", method = RequestMethod.POST)
-    public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtRequest authenticationRequest)
-            throws Exception {
+    @PostMapping(value = "/authenticate")
+    public String createAuthenticationToken(@RequestBody JwtRequest authenticationRequest) throws Exception {
+
+        log.warn("createAuthenticationToken: " + authenticationRequest);
 
         authenticate(authenticationRequest.getUsername(), authenticationRequest.getPassword());
 
-        final UserDetails userDetails = userDetailsService
-                .loadUserByUsername(authenticationRequest.getUsername());
+        final UserDetails userDetails = userDetailsService.loadUserByUsername(authenticationRequest.getUsername());
 
-        final String token = jwtTokenUtil.generateToken(userDetails);
-
-        return ResponseEntity.ok(new JwtResponse(token));
+        return jwtTokenUtil.generateToken(userDetails);
     }
 
     private void authenticate(String username, String password) throws Exception {
@@ -51,8 +48,10 @@ public class JwtAuthenticationController {
         try {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
         } catch (DisabledException e) {
+            log.error("USER_DISABLED", e);
             throw new Exception("USER_DISABLED", e);
         } catch (BadCredentialsException e) {
+            log.error("INVALID_CREDENTIALS", e);
             throw new Exception("INVALID_CREDENTIALS", e);
         }
     }

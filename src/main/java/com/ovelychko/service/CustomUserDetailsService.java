@@ -1,6 +1,6 @@
 package com.ovelychko.service;
 
-import com.ovelychko.auth.LandonUserPrincipal;
+import com.ovelychko.auth.CustomUserPrincipal;
 import com.ovelychko.auth.User;
 import com.ovelychko.auth.UserRepository;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -9,11 +9,11 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 @Service
-public class LandonUserDetailsService implements UserDetailsService {
+public class CustomUserDetailsService implements UserDetailsService {
 
     private final UserRepository userRepository;
 
-    public LandonUserDetailsService(UserRepository userRepository) {
+    public CustomUserDetailsService(UserRepository userRepository) {
         super();
         this.userRepository = userRepository;
     }
@@ -24,6 +24,7 @@ public class LandonUserDetailsService implements UserDetailsService {
         if (null == user) {
             throw new UsernameNotFoundException("cannot find username: " + username);
         }
-        return new LandonUserPrincipal(user);
+        return new CustomUserPrincipal(user);
     }
+
 }
