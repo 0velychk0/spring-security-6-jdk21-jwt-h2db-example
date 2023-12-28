@@ -11,6 +11,7 @@ import org.springframework.security.config.annotation.authentication.configurati
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
@@ -27,15 +28,17 @@ public class WebSecurityConfig {
     @Autowired
     CustomPasswordEncoder customPasswordEncoder;
 
-    private final static String[] patternsToIgnore = {
-            "/css/**", "/js/**", "/img/**", "/lib/**",
-            "/favicon.ico", "/", "/hello", "/error", "/authenticate"};
+    private final static String[] patternsToIgnore = { "/css/**", "/js/**", "/img/**", "/lib/**", "/favicon.ico", "/authenticate" };
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
         http
                 .csrf(AbstractHttpConfigurer::disable)
+                .sessionManagement(sm -> sm
+                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                        .disable()
+                )
                 .authorizeHttpRequests((authorize) -> authorize
                         .requestMatchers(patternsToIgnore).permitAll()
                         .anyRequest().authenticated()

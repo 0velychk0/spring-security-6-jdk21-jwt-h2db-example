@@ -10,10 +10,12 @@ import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.security.Principal;
 import java.util.Objects;
 
 @Slf4j
@@ -39,6 +41,12 @@ public class JwtAuthenticationController {
         final UserDetails userDetails = userDetailsService.loadUserByUsername(authenticationRequest.getUsername());
 
         return jwtTokenUtil.generateToken(userDetails);
+    }
+
+    @GetMapping(value = "/user")
+    public UserDetails getUser(Principal principal) {
+        log.warn("getUser called with : [" + principal + " ]");
+        return userDetailsService.loadUserByUsername(principal.getName());
     }
 
     private void authenticate(String username, String password) throws Exception {
